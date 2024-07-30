@@ -242,9 +242,20 @@
                     objData.tipoEnvio = item.parentElement.parentElement.children[13].textContent;
                     arrayDataForRow.push(objData);
                 })
-                arrayDataForRow.forEach(item => {
-                    // Simulacion de datos enviados al servidor
+                arrayDataForRow.forEach( async item => {
                     postData(item);
+                    try {
+                        const data = await fetch(`https://cuatrorios.cl/envios/${item.id}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(item)
+                        });
+                        console.log('data: ', data);
+                    } catch(error) {
+                        console.log('error: ', error);
+                    }
                 })
             })
         }
